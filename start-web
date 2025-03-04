@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+until nc -z -v -w30 mongodb 27017; do
+  echo "MongoDB is not ready. waiting..."
+  sleep 5
+done
+
+echo "MongoDB is ready. start web server..."
+
+python main.py
