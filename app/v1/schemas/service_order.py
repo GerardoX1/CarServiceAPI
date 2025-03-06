@@ -1,9 +1,9 @@
 from typing import Optional
 
 from presentation.error import ErrorLocationEnum
-from pydantic import BaseModel, Field, PositiveInt
+from pydantic import BaseModel, Field
 from traxion.models.base_models.queryable_model import QueryableModel
-from traxion.models.v1.vehicles import StatusVehicle
+from traxion.models.v1.service_orders import ServiceStatusType, ServiceType
 
 
 class QueryInput(QueryableModel):
@@ -21,17 +21,13 @@ class QueryInput(QueryableModel):
     )
 
 
-class VehiclesCreate(BaseModel):
-    plate_number: str
-    brand: str
-    model: str
-    year: PositiveInt
-    mileage: PositiveInt
-    status: StatusVehicle
+class ServiceOrderCreate(BaseModel):
+    vehicle_id: str
+    service_type: ServiceType
+    description: str
+    status: ServiceStatusType = Field(default=ServiceStatusType.CREATED)
 
 
-class VehiclesPatch(BaseModel):
-    brand: Optional[str] = None
-    model: Optional[str] = None
-    year: Optional[PositiveInt] = None
-    mileage: Optional[PositiveInt] = None
+class ServiceOrderPatch(BaseModel):
+    service_type: Optional[ServiceType] = None
+    description: Optional[str] = None
