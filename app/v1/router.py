@@ -1,13 +1,13 @@
 from fastapi import APIRouter, FastAPI
 
-from .endpoints import users
+from .endpoints import vehicles
 
 api_router = APIRouter(redirect_slashes=False)
 
 api_router.include_router(
-    users.router,
-    prefix="/users",
-    tags=["user"],
+    vehicles.router,
+    prefix="/vehicles",
+    tags=["vehicles"],
 )
 
 app = FastAPI()
