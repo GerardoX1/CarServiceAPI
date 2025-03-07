@@ -1,0 +1,112 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Traxion",
+        "version": "1.0.0",
+        "description": "Documentaci\u00f3n de API convertida desde Postman a OpenAPI (Swagger)"
+    },
+    "servers": [
+        {
+            "url": "{{HOST}}",
+            "description": "Servidor Base"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "ready",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        },
+        "/v1/service_orders": {
+            "post": {
+                "summary": "services_orders",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "services_orders",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        },
+        "/v1/vehicles/cc40aa76-8381-419c-b5cb-37e708556ab7": {
+            "patch": {
+                "summary": "vehicles",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "vehicles/id",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        },
+        "/v1/vehicles/": {
+            "get": {
+                "summary": "vehicles",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        },
+        "/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee/command/in_progress": {
+            "post": {
+                "summary": "services_orders/service_order_id",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        },
+        "/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee/command/closed": {
+            "post": {
+                "summary": "services_orders/service_order_id/progress",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta exitosa"
+                    }
+                }
+            }
+        }
+    }
+}

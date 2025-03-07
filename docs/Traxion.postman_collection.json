@@ -1,0 +1,587 @@
+{
+	"info": {
+		"_postman_id": "93336291-9fb2-453b-a2ed-df176d61bf62",
+		"name": "Traxion",
+		"description": "El sistema está diseñado para realizar una manipulación básica **CRUD** de los vehículos, permitiendo:\n- Crear, actualizar y eliminar vehículos.\n- Mostrar múltiples vehículos paginados.\n- Consultar información específica de cada vehículo.\n\nAdemás, se cuenta con un módulo para la gestión de **órdenes de servicio**, el cual es más complejo e incluye:\n- Creación de órdenes de servicio.\n- Consulta de información detallada de cada orden.\n- Modificación de algunos datos básicos como el tipo de servicio y la descripción.\n- Uso de **comandos** para avanzar en el flujo de las órdenes mediante los siguientes estados:\n  - `in_progress`: La orden entra en estado de ejecución.\n  - `canceled`: La orden es cancelada.\n  - `closed`: La orden se finaliza y se marca como completada",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ready",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Endpoint basico para la validaci'on de puesta en marcha del servidor web."
+			},
+			"response": []
+		},
+		{
+			"name": "vehicles",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"plate_number\": \"PDU1210\",\n    \"brand\": \"CHEVROLET\",\n    \"model\": \"beat\",\n    \"year\": 2025,\n    \"mileage\": 80000,\n    \"status\": \"ACTIVE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/v1/vehicles",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"vehicles"
+					]
+				},
+				"description": "## Registro de Vehículo\n\nPara dar de alta un vehículo en el sistema, es necesario proporcionar los siguientes campos:\n\n| Campo         | Tipo     | Descripción                                      | Ejemplo      |\n|--------------|---------|--------------------------------------------------|-------------|\n| `plate_number` | String  | Número de placa del vehículo. Debe ser único.    | `\"PDU1210\"` |\n| `brand`        | String  | Marca del vehículo.                              | `\"CHEVROLET\"` |\n| `model`        | String  | Modelo del vehículo.                             | `\"Beat\"` |\n| `year`         | Integer | Año de fabricación del vehículo.                 | `2025` |\n| `mileage`      | Integer | Kilometraje actual del vehículo en kilómetros.  | `80000` |\n| `status`       | String  | Estado del vehículo. Valores posibles: `\"ACTIVE\"`, `\"INACTIVE\"`. | `\"ACTIVE\"` |\n\nEstos datos son obligatorios para registrar un vehículo en el sistema. Asegúrate de que toda la información sea precisa antes de enviarla."
+			},
+			"response": [
+				{
+					"name": "vehicles",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plate_number\":\"PDU1210\",\n    \"brand\":\"CHEVROLET\",\n    \"model\":\"beat\",\n    \"year\":2025,\n    \"mileage\":80000,\n    \"status\": \"ACTIVE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/v1/vehicles",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"vehicles"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 17:42:59 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "361"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"CREATED\",\n    \"process_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n    \"timestamp\": 1741282979796,\n    \"data\": {\n        \"vehicles\": {\n            \"updated_at\": 1741282979770,\n            \"_id\": \"cc40aa76-8381-419c-b5cb-37e708556ab7\",\n            \"created_at\": 1741282979770,\n            \"version\": \"1.0.0\",\n            \"plate_number\": \"PDU1210\",\n            \"brand\": \"CHEVROLET\",\n            \"model\": \"beat\",\n            \"year\": 2025,\n            \"mileage\": 80000,\n            \"status\": \"ACTIVE\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "vehicles",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"model\":\"beat\",\n    \"year\":2025,\n    \"mileage\":1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/v1/vehicles/cc40aa76-8381-419c-b5cb-37e708556ab7",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"vehicles",
+						"cc40aa76-8381-419c-b5cb-37e708556ab7"
+					]
+				},
+				"description": "## Modificación de Datos del Vehículo\n\nPara evitar problemas y la pérdida de información, solo se pueden modificar los siguientes campos de un vehículo registrado:\n\n| Campo     | Tipo     | Descripción                               | Ejemplo  |\n|-----------|---------|-------------------------------------------|---------|\n| `model`   | String  | Modelo del vehículo.                     | `\"Beat\"` |\n| `year`    | Integer | Año de fabricación del vehículo.         | `2025` |\n| `mileage` | Integer | Kilometraje actual del vehículo en kilómetros. | `1000` |\n\nCualquier otro campo no es editable una vez registrado el vehículo en el sistema. Asegúrate de ingresar los datos correctos antes de realizar modificaciones."
+			},
+			"response": [
+				{
+					"name": "vehicles",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"model\":\"beat\",\n    \"year\":2026,\n    \"mileage\":1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/v1/vehicles/cc40aa76-8381-419c-b5cb-37e708556ab7",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"vehicles",
+								"cc40aa76-8381-419c-b5cb-37e708556ab7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 17:58:40 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "355"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"cc1d7863-02d0-4119-ba8b-a071a40153b1\",\n    \"timestamp\": 1741283920936,\n    \"data\": {\n        \"vehicles\": {\n            \"updated_at\": 1741283920936,\n            \"_id\": \"cc40aa76-8381-419c-b5cb-37e708556ab7\",\n            \"created_at\": 1741282979770,\n            \"version\": \"1.0.0\",\n            \"plate_number\": \"PDU1210\",\n            \"brand\": \"CHEVROLET\",\n            \"model\": \"beat\",\n            \"year\": 2026,\n            \"mileage\": 1000,\n            \"status\": \"ACTIVE\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "vehicles/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/v1/vehicles/cc40aa76-8381-419c-b5cb-37e708556ab7",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"vehicles",
+						"cc40aa76-8381-419c-b5cb-37e708556ab7"
+					]
+				},
+				"description": "## Consulta de Información de un Vehículo\n\nEste servicio permite obtener la información específica de un vehículo a partir de su identificador único (`id`).\n\n### **Solicitud**\n- **Método:** `GET`\n- **Endpoint:** `/vehiculos/{id}`\n- **Parámetros:**  \n  - `id` (String): Identificador único del vehículo.\n\n### **Respuesta**\nSi la solicitud es exitosa, el servicio devolverá un objeto con los datos del vehículo registrado.\n\n### **Ejemplo de Respuesta**\n```json\n{\n  \"id\": \"12345\",\n  \"plate_number\": \"PDU1210\",\n  \"brand\": \"CHEVROLET\",\n  \"model\": \"Beat\",\n  \"year\": 2025,\n  \"mileage\": 80000,\n  \"status\": \"ACTIVE\"\n}"
+			},
+			"response": [
+				{
+					"name": "vehicles/id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/v1/vehicles/cc40aa76-8381-419c-b5cb-37e708556ab7",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"vehicles",
+								"cc40aa76-8381-419c-b5cb-37e708556ab7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:37:48 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "356"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"039e12bf-4d25-42b0-9365-949444a1ecf8\",\n    \"timestamp\": 1741297068247,\n    \"data\": {\n        \"vehicles\": {\n            \"updated_at\": 1741282979770,\n            \"_id\": \"cc40aa76-8381-419c-b5cb-37e708556ab7\",\n            \"created_at\": 1741282979770,\n            \"version\": \"1.0.0\",\n            \"plate_number\": \"PDU1210\",\n            \"brand\": \"CHEVROLET\",\n            \"model\": \"beat\",\n            \"year\": 2025,\n            \"mileage\": 80000,\n            \"status\": \"ACTIVE\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "vehicles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/v1/vehicles/",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"vehicles",
+						""
+					]
+				},
+				"description": "## Obtener Listado de Vehículos\n\nEste endpoint permite obtener un listado de vehículos de forma paginada. Además, es posible aplicar filtros para refinar los resultados.\n\n### **Solicitud**\n- **Método:** `GET`\n- **Endpoint:** `/vehiculos`\n- **Parámetros opcionales:**\n  - `page` (Integer): Número de página (por defecto, `1`).\n  - `limit` (Integer): Cantidad de registros por página (por defecto, `10`).\n  - `brand` (String): Filtrar por marca del vehículo.\n  - `model` (String): Filtrar por modelo del vehículo.\n  - `year` (Integer): Filtrar por año de fabricación.\n  - `status` (String): Filtrar por estado (`\"ACTIVE\"` o `\"INACTIVE\"`).\n\n### **Ejemplo de Solicitud**\n```http\nGET /vehiculos?page=1&limit=10&brand=CHEVROLET&status=ACTIVE"
+			},
+			"response": [
+				{
+					"name": "vehicles",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/v1/vehicles/",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"vehicles",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:37:53 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "628"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"2ebfd123-770a-440b-a380-b786ad77397d\",\n    \"timestamp\": 1741297073834,\n    \"data\": {\n        \"vehicles\": [\n            {\n                \"updated_at\": 1741282979770,\n                \"id\": \"cc40aa76-8381-419c-b5cb-37e708556ab7\",\n                \"created_at\": 1741282979770,\n                \"version\": \"1.0.0\",\n                \"plate_number\": \"PDU1210\",\n                \"brand\": \"CHEVROLET\",\n                \"model\": \"beat\",\n                \"year\": 2025,\n                \"mileage\": 80000,\n                \"status\": \"ACTIVE\"\n            },\n            {\n                \"updated_at\": 1741297037700,\n                \"id\": \"0dc3692c-7f65-4352-8702-941e5e01cc7b\",\n                \"created_at\": 1741297037700,\n                \"version\": \"1.0.0\",\n                \"plate_number\": \"XYZ1201\",\n                \"brand\": \"NISSAN\",\n                \"model\": \"Maxima\",\n                \"year\": 2022,\n                \"mileage\": 20000,\n                \"status\": \"ACTIVE\"\n            }\n        ],\n        \"page_limit\": 50,\n        \"total_pages\": 1,\n        \"items_count\": 2\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "services_orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n    \"service_type\": \"CORRECTIVE\",\n    \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/v1/service_orders",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"service_orders"
+					]
+				},
+				"description": "## Crear Orden de Servicio para un Vehículo\n\nEl siguiente endpoint permite generar órdenes de servicio para vehículos previamente registrados en el sistema.\n\n### **Solicitud**\n- **Método:** `POST`\n- **Endpoint:** `{{HOST}}/v1/service_orders`\n- **Cuerpo de la solicitud (JSON):**\n  - `vehicle_id` (String) **(Requerido)**: Identificador único del vehículo.\n  - `service_type` (String) **(Requerido)**: Tipo de servicio a realizar (ej. `\"Mantenimiento\"`, `\"Reparación\"`).\n  - `description` (String) **(Opcional)**: Descripción detallada del servicio solicitado.\n \n### **Ejemplo de Solicitud**\n```http\nPOST {{HOST}}/v1/service_orders\nContent-Type: application/json\n\n{\n  \"vehicle_id\": \"12345\",\n  \"service_type\": \"Mantenimiento\",\n  \"description\": \"Cambio de aceite y revisión de frenos\",\n  \"requested_by\": \"Juan Pérez\",\n  \"priority\": \"ALTA\"\n}"
+			},
+			"response": [
+				{
+					"name": "services_orders",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n    \"service_type\": \"CORRECTIVE\",\n    \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/v1/service_orders",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"service_orders"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:42:19 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "429"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"CREATED\",\n    \"process_id\": \"2da4afaf-0ea7-4983-a57b-05faa3ca8683\",\n    \"timestamp\": 1741297340198,\n    \"data\": {\n        \"service_orders\": {\n            \"updated_at\": 1741297340174,\n            \"_id\": \"e5bd15df-8374-47d0-8033-40e81a7d13ee\",\n            \"created_at\": 1741297340174,\n            \"version\": \"1.0.0\",\n            \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n            \"service_type\": \"CORRECTIVE\",\n            \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\",\n            \"status\": \"CREATED\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "services_orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/v1/service_orders",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"service_orders"
+					]
+				},
+				"description": "## Obtener Listado de Órdenes de Servicio\n\nEste endpoint permite obtener todas las órdenes de servicio generadas para los vehículos registrados. La respuesta se devuelve de forma paginada y se pueden aplicar filtros para refinar los resultados.\n\n### **Solicitud**\n- **Método:** `GET`\n- **Endpoint:** `{{HOST}}/v1/service_orders`\n- **Parámetros opcionales:**\n  - `page` (Integer): Número de página (por defecto, `1`).\n  - `limit` (Integer): Cantidad de registros por página (por defecto, `10`).\n  - `vehicle_id` (String): Filtrar por el identificador del vehículo.\n  - `service_type` (String): Filtrar por tipo de servicio (ej. `\"Mantenimiento\"`, `\"Reparación\"`).\n  - `status` (String): Filtrar por estado de la orden (`\"PENDIENTE\"`, `\"EN PROCESO\"`, `\"COMPLETADO\"`, `\"CANCELADO\"`).\n  - `requested_by` (String): Filtrar por el usuario que solicitó la orden.\n\n### **Ejemplo de Solicitud**\n```http\nGET {{HOST}}/v1/service_orders?page=1&limit=10&status=PENDIENTE"
+			},
+			"response": [
+				{
+					"name": "services_orders",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/v1/service_orders",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"service_orders"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:45:26 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "473"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"19ea7356-940c-406d-aef4-9bae6b30ee17\",\n    \"timestamp\": 1741297526944,\n    \"data\": {\n        \"service_orders\": [\n            {\n                \"updated_at\": 1741297340174,\n                \"id\": \"e5bd15df-8374-47d0-8033-40e81a7d13ee\",\n                \"created_at\": 1741297340174,\n                \"version\": \"1.0.0\",\n                \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n                \"service_type\": \"CORRECTIVE\",\n                \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\",\n                \"status\": \"CREATED\"\n            }\n        ],\n        \"page_limit\": 50,\n        \"total_pages\": 1,\n        \"items_count\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "services_orders/service_order_id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee/command/in_progress",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"service_orders",
+						"e5bd15df-8374-47d0-8033-40e81a7d13ee",
+						"command",
+						"in_progress"
+					]
+				},
+				"description": "## Actualizar Estado de una Orden de Servicio\n\nEste endpoint permite cambiar el estado de una orden de servicio específica. Se utiliza para actualizar el progreso de la orden a lo largo de su ciclo de vida.\n\n### **Solicitud**\n- **Método:** `POST`\n- **Endpoint:**"
+			},
+			"response": [
+				{
+					"name": "services_orders/service_order_id",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"service_type\":\"PREVENTIVE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"service_orders",
+								"e5bd15df-8374-47d0-8033-40e81a7d13ee"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:49:32 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "424"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"cf655be2-77e4-4310-adf4-f91682f2f628\",\n    \"timestamp\": 1741297772964,\n    \"data\": {\n        \"service_orders\": {\n            \"updated_at\": 1741297772965,\n            \"_id\": \"e5bd15df-8374-47d0-8033-40e81a7d13ee\",\n            \"created_at\": 1741297340174,\n            \"version\": \"1.0.0\",\n            \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n            \"service_type\": \"PREVENTIVE\",\n            \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\",\n            \"status\": \"CREATED\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "services_orders/service_order_id/progress",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee/command/closed",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"v1",
+						"service_orders",
+						"e5bd15df-8374-47d0-8033-40e81a7d13ee",
+						"command",
+						"closed"
+					]
+				},
+				"description": "## Cerrar una Orden de Servicio\n\nEste endpoint permite marcar una orden de servicio como **cerrada** una vez que ha sido completada y revisada. Una vez cerrada, la orden ya no podrá ser modificada."
+			},
+			"response": [
+				{
+					"name": "services_orders/service_order_id/progress",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/v1/service_orders/e5bd15df-8374-47d0-8033-40e81a7d13ee/command/in_progress",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"v1",
+								"service_orders",
+								"e5bd15df-8374-47d0-8033-40e81a7d13ee",
+								"command",
+								"in_progress"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 06 Mar 2025 21:50:56 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "428"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"version\": \"1.0.0\",\n    \"status\": \"OK\",\n    \"process_id\": \"6b01830c-7b7e-4cd8-aefc-4bb435a2d41d\",\n    \"timestamp\": 1741297857701,\n    \"data\": {\n        \"service_orders\": {\n            \"updated_at\": 1741297857701,\n            \"_id\": \"e5bd15df-8374-47d0-8033-40e81a7d13ee\",\n            \"created_at\": 1741297340174,\n            \"version\": \"1.0.0\",\n            \"vehicle_id\": \"fbb0517d-9a86-433e-b24c-ba8e675c052b\",\n            \"service_type\": \"CORRECTIVE\",\n            \"description\": \"Alguien puso jugo de naranja en deposito de gasolina\",\n            \"status\": \"IN_PROGRESS\"\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}
